@@ -1,5 +1,6 @@
 This utility allows for mutli-county probate records searching (Estate and Marriage) for South Carolina.
 
+```console
 Usage: probate_search_cli.py <options>
 
 Search South Carolina Probate Data Records.  The results are output to a .csv
@@ -22,3 +23,4 @@ Options:
   -m MIDDLENAME, --middlename=MIDDLENAME
                         Specify the middle name for the search. You can use
                         "%" to wildcard.
+```
