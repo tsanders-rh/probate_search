@@ -26,4 +26,4 @@ Options:
 ```
 
 
-![Alt text](relative%20path/to/img.jpg?raw=true "Title")
+![GUI Screenshot](images/screenshot.png?raw=true "Title")
