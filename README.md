@@ -25,5 +25,6 @@ Options:
                         "%" to wildcard.
 ```
 
+There is also a GUI version. See screen capture below:
 
 ![GUI Screenshot](images/screenshot.png?raw=true "Title")
