@@ -24,3 +24,6 @@ Options:
                         Specify the middle name for the search. You can use
                         "%" to wildcard.
 ```
+
+
+![Alt text](relative%20path/to/img.jpg?raw=true "Title")
