@@ -1,4 +1,4 @@
-This utility allows for mutli-county probate records searching (Estate and Marriage) for South Carolina.
+This utility allows for multi-county probate records searching (Estate and Marriage) for South Carolina.
 
 ```console
 Usage: probate_search_cli.py <options>
