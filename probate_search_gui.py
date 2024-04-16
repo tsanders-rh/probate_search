@@ -13,6 +13,8 @@ from CTkListbox import *
 from CTkTable import *
 import tkinter.ttk
 from probate_search import ProbateSearch
+from PIL import Image, ImageTk
+import csv
 
 class Options:
 
@@ -22,13 +24,12 @@ class Options:
         self.middlename = middlename
 
 # Constants
-COUNTIES = ['Aiken', 'Bamberg', 'Barnwell', 'Beaufort', 'Charleston', 'Cherokee', 'Chester', 'Colleton', 'Dorchester']
+COUNTIES = ['Aiken', 'Bamberg', 'Barnwell', 'Beaufort', 'Charleston', 'Cherokee', 'Chester', 'Colleton', 'Dorchester', 'Florence', 'Georgetown', 'Greenwood', 'Jasper', 'Kershaw', 'Lancaster', 'Marlboro', 'Newberry', 'Oconee', 'Orangeburg', 'Saluda', 'Sumter', 'York']
 TABLE_HEADING = ['CaseNumber','CaseName','Party','CaseType','FilingDate','County','AppointmentDate','CreditorClaimDue','CaseStatus']
 
 # Set Theme and Mode
 customtkinter.set_appearance_mode("dark")  # Modes: system (default), light, dark
 customtkinter.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
-
 
 
 # Main App
@@ -38,19 +39,14 @@ app.title("Probate Search - South Carolina")
 
 # Functions
 def search_function():
-    print("Search Button Pressed.")
     search_button.configure(state=customtkinter.DISABLED)
 
     selectedCounties = []
-    options = {
-        "lastname" : "Sanders"
-    }
 
     for idx in listbox.curselection():
         selectedCounties.append(COUNTIES[idx])
-    print(selectedCounties)
 
-    results = ProbateSearch().search(selectedCounties, Options(lastname='Sanders'), "Estate")
+    results = ProbateSearch().search(selectedCounties, Options(lastname=lastname_entry.get(), firstname=firstname_entry.get(), middlename=middlename_entry.get()), "Estate")
     table_data = []
     table_data.append(TABLE_HEADING)
     for i in results:
@@ -60,7 +56,7 @@ def search_function():
     table.rows = len(table_data)
     table.update_values(table_data)
 
-    results_label.configure(text = str(len(table_data)) + "  Records Found.")
+    results_label.configure(text = str(len(table_data)-1) + "  Records Found.")
 
     search_button.configure(state=customtkinter.NORMAL)
     
@@ -75,6 +71,12 @@ def validate_county_selection(choices):
 def radiobutton_event():
     print("radiobutton toggled, current value:", radio_var.get())
 
+def export_csv():
+    print("Export CSV")
+    with open('results.csv', 'w', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerows(table.get())
+
 # UI Components
 search_button = customtkinter.CTkButton(master=app, text="Search", command=search_function)
 search_button.grid(row=9, column=0, padx=5, pady=25)
@@ -82,7 +84,7 @@ search_button.grid(row=9, column=0, padx=5, pady=25)
 county_label = customtkinter.CTkLabel(master=app, text="Select Counties:", fg_color="transparent")
 county_label.grid(row=0, column=0, padx=5, pady=5)
 
-listbox = CTkListbox(master=app, multiple_selection=True, command=validate_county_selection)
+listbox = CTkListbox(master=app, multiple_selection=True, height=200, command=validate_county_selection)
 listbox.grid(row=1, column=0, padx=5, pady=5)
 
 # Populate County DropDown Selector
@@ -130,5 +132,11 @@ table.pack(expand=True, fill="both", padx=5, pady=5)
 
 results_label = customtkinter.CTkLabel(master=app, text="0 Records Found.", fg_color="transparent")
 results_label.grid(row=15, column=1, padx=25, pady=0, sticky='nw')
+
+#Load export image
+export_image = customtkinter.CTkImage(Image.open("images/export.png").resize((25,25), Image.LANCZOS))
+export_button = customtkinter.CTkButton(master=app, image=export_image, text="Export CSV", width=125, height=15, compound="right", command=export_csv)
+export_button.grid(row=15, column=1, padx=25, sticky="e")
+
 
 app.mainloop()

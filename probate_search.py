@@ -103,7 +103,6 @@ class ProbateSearch:
     #
 
     def search(self, counties, options, type):
-        print("executing the search...")
 
         # Run Chrome in headless mode Option
         chrome_options = Options()
